@@ -72,8 +72,8 @@ RUN yes | /tmp/vmware-vix-disklib-distrib/vmware-install.pl -d && \
 ## -------- vCloud Air -------- ##
 
 # Install vca-cli
-RUN apt-get install -yq libssl-dev \ 
-     libffi-dev \ 
+RUN apt-get install -yq libssl-dev \
+     libffi-dev \
      libxml2-dev \
      libxslt-dev && \
     apt-get clean
@@ -97,6 +97,9 @@ RUN gem install --no-rdoc --no-ri vcloud-tools
 ADD cloudclient-3.1.0-2375258-dist.zip /tmp/
 RUN unzip /tmp/cloudclient-3.1.0-2375258-dist.zip -d /root
 RUN rm -rf /tmp/cloudclient-3.1.0-2375258-dist.zip
+
+# Fix for avoiding the wait for accepting the cloudclient license agreement
+RUN echo EULA=true >~/.cloudclient/cloudclient.config
 
 # Run Bash when the image starts
 CMD ["/bin/bash"]
